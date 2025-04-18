@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ative seu Cadastro - Pagamento PIX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Estilos Gerais */
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(100deg, #222222, #252525);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Estilo da Notificação Compacta */
+    .notification {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: #4CAF50;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 6px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      max-width: 250px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 1000;
+      font-size: 0.9rem;
+    }
+
+    .notification.show {
+      opacity: 1;
+    }
+
+    .notification-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
+
+    /* Estilo do Layout do Site */
+    .container {
+      max-width: 350px;
+      background-color: #131313;
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 80px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    .logo {
+      width: 100px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #1DB954;
+      margin-bottom: 20px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .step {
+      background-color: #282828;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      color: #FFFFFF;
+      text-align: left;
+    }
+
+    .step-header {
+      display: inline-block;
+      background-color: #1DB954;
+      color: #FFFFFF;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .highlight {
+      color: #1DB954;
+      font-weight: bold;
+    }
+
+    .cta {
+      display: inline-block;
+      background: linear-gradient(90deg, #009e5c, #16a02d);
+      color: white;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(22, 160, 133, 0.3);
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+      margin-top: 20px;
+    }
+
+    .cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(22, 160, 133, 0.5);
+    }
+
+    .alert-box {
+      border: 2px solid #FF0000;
+      color: #FFFFFF;
+      padding: 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .alert-box img {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 10px;
+    }
+
+    .alert-box p {
+      font-size: 0.9rem;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .alert-box .bold {
+      font-weight: 800;
+    }
+
+    /* Rodapé */
+    .footer {
+      width: 100%;
+      background: #131313;
+      padding: 20px 0;
+      color: #B3B3B3;
+      text-align: center;
+      font-size: 0.85rem;
+      border-top: 1px solid #282828;
+      margin-top: 20px;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .security-seals {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .seal {
+      width: 35px;
+      height: 35px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .footer-link {
+      color: #1DB954;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: #b3ffcc;
+    }
+
+    .footer p {
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Notificação -->
+  <div id="notification" class="notification show">
+    <!-- Ícone de check com círculo branco em SVG -->
+    <svg class="notification-icon" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="2" fill="none"></circle>
+      <path d="M9 12l2 2 4-4" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+    
+    <span id="notification-text">Caio Santos ativou o cadastro agora!</span>
+  </div>
+
+  <div class="container">
+    <img src="images/Spotify_icon.svg" alt="Spotify Logo" class="logo">
+    <h1>Ative seu Cadastro para Receber o PIX</h1>
+
+    <!-- Passo 1 -->
+    <div class="step">
+      <div class="step-header">1º Passo</div>
+      <p>Para <span class="highlight">cadastrar sua chave Pix</span>, é preciso fazer o pagamento da taxa <span class="highlight">ANTI-FRAUDE</span> no valor de R$ 19,90.</p>
+      <p><span class="highlight">OBS:</span> A taxa será <span class="highlight">100% devolvida</span> ao usuário junto ao seu 1º saque.</p>
+    </div>
+
+    <!-- Passo 2 -->
+    <div class="step">
+      <div class="step-header">2º Passo</div>
+      <p>Após o pagamento, você receberá imediatamente seu <span class="highlight">1º saque</span> e também receberá acesso ao App para <span class="highlight">continuar lucrando</span>.</p>
+    </div>
+
+    <a href="https://pay.risepay.com.br/Pay/73de2c1939e640ec8393760b31132546" class="cta">Pagar Taxa e Receber o PIX</a>
+
+    <!-- Aviso Final -->
+    <div class="alert-box">
+      <img src="images/error--v1.png" alt="Ícone de aviso">
+      <p>Após gerar o Pix, você terá <span class="bold">10 minutos</span> para concluir o pagamento e sacar.<br><br></p>
+      <p>Se a taxa não for paga no prazo, <span class="bold">seu saldo será 100% devolvido ao App.</span></p>
+    </div>
+  </div>
+
+  <!-- Rodapé Original -->
+  <div class="footer">
+    <div class="footer-container">
+      <div class="security-seals">
+        <img src="images/security-shield-green.png" alt="Selo de Segurança" class="seal">
+        <img src="images/privacy.png" alt="Selo de Privacidade" class="seal">
+        <img src="images/lock.png" alt="Selo de Pagamento Seguro" class="seal">
+      </div>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Política de Privacidade</a> |
+        <a href="#" class="footer-link">Termos de Uso</a> |
+        <a href="#" class="footer-link">Direitos Autorais</a>
+      </div>
+      <p>© 2023 Spotify Brasil. Todos os direitos reservados.</p>
+    </div>
+  </div>
+
+  <!-- Script para exibir notificações de nomes variados -->
+  <script>
+    const nomes = [
+      "Caio Santos", "Ana Beatriz Lima", "Maria Clara Oliveira", "João Pedro Ribeiro",
+      "Fernando Almeida", "Lucas Silva", "Luiza Machado", "Gabriel Costa",
+      "Mariana Oliveira", "Paula Ferreira Souza", "Pedro Henrique Santos", 
+      "Isabela Guimarães", "Ricardo Lopes", "Lara Mendes Silva"
+    ];
+    let index = 0;
+
+    function exibirNotificacao() {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notification-text');
+      notificationText.textContent = `${nomes[index]} ativou o cadastro agora!`;
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 5000);
+      index = (index + 1) % nomes.length;
+      setTimeout(exibirNotificacao, 7000);
+    }
+
+    window.onload = exibirNotificacao;
+  </script>
+
+
+</body></html>
